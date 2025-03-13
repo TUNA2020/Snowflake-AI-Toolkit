@@ -93,6 +93,31 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+def display_ai_sql_generator():
+    st.title("🤖 AI-Powered SQL Query Generator")
+
+    # User input
+    user_input = st.text_area("Enter your query in natural language:", "e.g., Show total sales per region.")
+
+    if st.button("Generate and Execute SQL"):
+        if user_input.strip() == "":
+            st.error("Please enter a valid query.")
+        else:
+            try:
+                # Generate SQL query
+                sql_query = generate_sql_query(user_input)
+                st.subheader("Generated SQL Query:")
+                st.code(sql_query, language="sql")
+
+                # Execute SQL query
+                df = execute_sql_query(sql_query)
+
+                # Display results
+                st.subheader("Query Results:")
+                st.dataframe(df)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
 
 # Sidebar Navigation with logo
 render_image(config["default_settings"]["logo_path"])
@@ -128,7 +153,8 @@ pages = {
     "Build": build.display_build,
     "Notification": notification.display_notification,
     "Cortex Search": display_search,
-    "Setup": setup.display_setup
+    "Setup": setup.display_setup,
+    "AI SQL Generator": lambda session: display_ai_sql_generator() 
 }
 
 # Render the selected page from the pages dictionary
