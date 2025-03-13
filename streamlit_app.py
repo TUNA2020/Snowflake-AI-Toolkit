@@ -1,5 +1,7 @@
 import streamlit as st
 from src.utils import *
+from src.sql_query_generator import generate_sql_query
+from src.sql_executor import execute_sql_query
 from src import home, playground, build, notification, setup
 from snowflake.snowpark.context import get_active_session
 from pathlib import Path
@@ -116,6 +118,8 @@ with st.sidebar:
             st.session_state.page = "Cortex Search"
         if st.button("🔔 Notification"):
             st.session_state.page = "Notification"
+        if st.button("🤖 AI SQL Generator"):
+            st.session_state.page = "AI SQL Generator"
 
 # Pages dictionary with corresponding display functions
 pages = {
